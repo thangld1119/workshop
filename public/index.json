@@ -1,0 +1,85 @@
+[
+{
+	"uri": "//localhost:1313/1-createvpc/",
+	"title": "Create VPC",
+	"tags": [],
+	"description": "",
+	"content": "Search for \u0026ldquo;VPC console\u0026rdquo; in the tool bar and create a VPC.\nNext, select \u0026ldquo;VPC with Public and Private Subnets (VPC with IGW)\u0026rdquo; and then rename the VPC and add an IPv4 CIDR as shown in the image before clicking \u0026ldquo;Create VPC\u0026rdquo;.\nAfter creation, go to the configuration section of the newly created VPC and enable DNS Hostnames to make the setup process easier.\nThat completes the steps for creating the VPC.\n"
+},
+{
+	"uri": "//localhost:1313/",
+	"title": "Setting up a High Availability website architecture on AWS",
+	"tags": [],
+	"description": "",
+	"content": "Introduction to architecture High Availability Architecture on AWS. The purpose of building this architecture is to ensure high availability and fast recoverability when incidents occur for the system.\nThe architecture is designed as follows:\nA VPC is created across 2 zones: us-west-1a and us-west-1b to avoid outages caused by incidents in a single zone and ensure high availability. There are 2 public subnets and 2 private subnets placed across the 2 zones. 1 Internet Gateway and 2 Nat Gateways are created, with 1 in each zone. An Application Load Balancer is used to balance load for the website. NACLs, Security Groups and IAM are used for security. A Bastion host is configured for remote administration from the internet. 1 website is deployed on the Private subnet. Steps to take Create VPC Create Subnets Create Internet Gateway Routing Create Nat Gateway Setting Bastion Host Set Up Website On EC2 Set Up Application Loadbalance End "
+},
+{
+	"uri": "//localhost:1313/2-createsubnets/",
+	"title": "Create Subnets",
+	"tags": [],
+	"description": "",
+	"content": "Next, we will create 4 subnets under the VPC that was previously created. Go back to the VPC console and create subnets.\nNote that you should select the correct VPC ID that matches the VPC that was just created.\nCreate subnets such as tables\nSubnet name IPv4 subnet Availability Zone workshop-pubsub-1 172.20.1.0/24 us-west-1a workshop-pubsub-2 172.20.2.0/24 us-west-1b workshop-privsub-1 172.20.3.0/24 us-west-1a workshop-privsub-2 172.20.4.0/24 us-west-1b Do the same with the rest of the subnets\nAfter setting up the subnet we proceed to create. And here\u0026rsquo;s the result.\nAfter creating the subnets, enable the \u0026ldquo;Auto-assign public IPv4 address\u0026rdquo; feature for the two public subnets. The \u0026ldquo;Auto-assign public IPv4 address\u0026rdquo; feature automatically assigns a public IPv4 address to EC2 instances when they are launched in that subnet.\n"
+},
+{
+	"uri": "//localhost:1313/3-createinternetgateway/",
+	"title": "Create Internet Gateway",
+	"tags": [],
+	"description": "",
+	"content": "Create Internet gateways in VPC Console\nAfter creation, proceed to assign the created VPC\n"
+},
+{
+	"uri": "//localhost:1313/4-routing/",
+	"title": "Routing",
+	"tags": [],
+	"description": "",
+	"content": "Back to VPC console, create a route table to set up routing for Public subnet and Private subnet\nAfter creating we will link the subnets in 2 Zones together\n"
+},
+{
+	"uri": "//localhost:1313/5-createnatgateway/",
+	"title": "Create Nat Gateway",
+	"tags": [],
+	"description": "",
+	"content": "Next, to be able to access from outside the Cloud, we need to have an IP address, we will use the service Elastic IP address to have 1 ip address\nCreate a NAT gateway for components in the VPC to communicate with the outside\nOnly allow public subnets to communicate to the internet environment\n"
+},
+{
+	"uri": "//localhost:1313/6-settingbastionhost/",
+	"title": "Setting Bastion Host",
+	"tags": [],
+	"description": "",
+	"content": "Bastion Host is limiting and controlling external access to servers in a private network. Instead of allowing direct external access to the servers, users must first connect to Bastion Host through a secure channel where they use SSH and then from Bastion Host, they can access other servers in the private network\nFirst we will create a Security Group to set rules for Bastion Host Go to the EC2 console and proceed to create a Security Group\nSSH unlock\nCreate a KeyPair for Bastion Host\nSave keypair\nCreate EC2 as a Bastion Host server\nHere I use Ubuntu\nSelect the newly created keypair\nVPC security group parameters\nAnd proceed to run Instances\nProceed with SSH access to the Bastion server Here I use git bash to access the corresponding command and the downloaded keypair file above\nThe Bastion Host has been set up\n"
+},
+{
+	"uri": "//localhost:1313/7-setupwebsiteonec2/",
+	"title": "Set Up Website On EC2",
+	"tags": [],
+	"description": "",
+	"content": "Create 1 more EC2 in the private subnet First, create a keypair for a website host\nSave it in the keypair folder of Bastion Host\nNext send the keypair to Bastion Host\nNext create Web Instances\nSet up Security Group for Web instances accessible only from Bastion Host\nNext we use Bastion Host to access the Web Server\nThen install the necessary libraries\nFind the web resource here I download at the tooplate page\nProceed to extract and coppy to html directory and restart httpd service\n"
+},
+{
+	"uri": "//localhost:1313/8-setupapplicationloadbalance/",
+	"title": "Set Up Application Loadbalance",
+	"tags": [],
+	"description": "",
+	"content": "An Application Load Balancer is a load distribution service in AWS that is used to load balance traffic to applications operating across multiple servers or application processing resources. It helps to increase load capacity, improve performance and ensure application availability.\nFirst step we create target group for loadbalance\nSelect the created VPC\nI use the target group for the Web Host to open port 80 so that outside the Internet can access the website\nCreate a Security Group for Load Balance\nCreate Load Balance\nAttention to select 2 public subnets in 2 zones\nSecurity group\nDone, now we coppy DNS and proceed to access the test site\nFruits\n"
+},
+{
+	"uri": "//localhost:1313/9-end/",
+	"title": "End",
+	"tags": [],
+	"description": "",
+	"content": "Thanks for watching my Workshop. This is just a simple model implementation with a lot of shortcomings. In the future, I will study more deeply and improve the model to ensure more safety, stability and flexibility. Thank you.\n"
+},
+{
+	"uri": "//localhost:1313/categories/",
+	"title": "Categories",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "//localhost:1313/tags/",
+	"title": "Tags",
+	"tags": [],
+	"description": "",
+	"content": ""
+}]

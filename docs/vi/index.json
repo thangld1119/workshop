@@ -1,0 +1,85 @@
+[
+{
+	"uri": "/vi/1-createvpc/",
+	"title": "Tạo VPC",
+	"tags": [],
+	"description": "",
+	"content": "Tìm kiếm VPC console trên thanh công cụ và tạo VPC\nTiếp đến chọn VPC only sau đó đổi tên cho VPC và thêm IPv4 CIDR như hình rồi bấm Create VPC\nSau khi tạo xong chúng ta vào phần cài đặt VPC vừa mới tạo mở DNS HostName giúp dễ hơn trong quá trình thiết lập\nNhư vậy chúng ta đã xong bước tạo VPC\n"
+},
+{
+	"uri": "/vi/",
+	"title": "Thiết lập trang web với kiến trúc High Availability trên AWS",
+	"tags": [],
+	"description": "",
+	"content": "Giới thiệu về kiến trúc Kiến trúc High Availability trên AWS. Mục đích xây dựng kiến trúc này là đảm bảo tính sẵn sàng cao và khả năng phục hồi nhanh khi xảy ra sự cố cho hệ thống.\nKiến trúc được thiết kế gồm:\nVPC được tạo tại 2 zone: us-west-1a và us-west-1b để tránh những sự cố xảy ra tại một zone đảm bảo tính sẵn sàng Có 2 public subnet và 2 private subnet đặt tại 2 zone Tạo 1 Internet Gateway và 2 Nat Gateway, 1 tại mỗi zone Sử dụng Aplication Loadbalance để cân bằng tải cho trang web Sử dụng NACL, Security Groups và IAM cho bảo mật. Cấu hình Bastion host để quản trị từ internet 1 trang web trên Private subnet Các bước tiến hành Tạo VPC Tạo subnets Tạo Internet Gateway Thiết lập định tuyến Tạo Nat Gateway Thiết lập Bastion Host Thiết lập website trên EC2 Thiết lập Application Loadbalance Kết thúc "
+},
+{
+	"uri": "/vi/2-createsubnets/",
+	"title": "Tạo subnet",
+	"tags": [],
+	"description": "",
+	"content": "Kế đến ta tạo 4 mạng con từ VPC mà chúng ta đã tạo trước đó Trở lại VPC console và tạo subnet\nChú ý chọn VPC ID đúng với VPC vừa tạo\nTạo các subnet như bảng\nSubnet name IPv4 subnet Availability Zone workshop-pubsub-1 172.20.1.0/24 us-west-1a workshop-pubsub-2 172.20.2.0/24 us-west-1b workshop-privsub-1 172.20.3.0/24 us-west-1a workshop-privsub-2 172.20.4.0/24 us-west-1b Làm tương tụ với các subnet còn lại\nSau khi thiết lập các subnet xong chúng ta tiến hành tạo. Và đây là thành quả\nSau khi tạo xong chúng ta mở tính năng Auto-assign public IPv4 address cho 2 public subnet Tính năng Auto-assign public IPv4 address mỗi khi bạn triển khai một EC2 instance trong subnet thì sẽ được tự động được gán một địa chỉ IPv4 công cộng cho instance đó\n"
+},
+{
+	"uri": "/vi/3-createinternetgateway/",
+	"title": "Tạo Internet Gateway",
+	"tags": [],
+	"description": "",
+	"content": "Tiến hành tạo Internet gateways ở VPC Console\nSau khi tạo xong tiến hành gán VPC đã tạo\n"
+},
+{
+	"uri": "/vi/4-routing/",
+	"title": "Thiết lập định tuyến",
+	"tags": [],
+	"description": "",
+	"content": "Về lại VPC console tiến hành tạo route table để thiết lập định tuyến cho subnet Public và subnet Private\nSau khi tạo xong chúng ta sẽ liên kết các subnet tại 2 Zone với nhau\n"
+},
+{
+	"uri": "/vi/5-createnatgateway/",
+	"title": "Tạo Nat Gateway",
+	"tags": [],
+	"description": "",
+	"content": "Nat Gateway Tiếp theo để có thể truy cập từ bên ngoài Cloud thì ta cần phải có địa chỉ IP chúng ta sẽ sử dụng dịch vụ Elastic IP address để có 1 địa chỉ ip\nTạo NAT gateway để các thành phần trong VPC giao tiếp với bên ngoài\nChỉ cho phép public subnet giao tiếp ra môi trường internet\n"
+},
+{
+	"uri": "/vi/6-settingbastionhost/",
+	"title": "Thiết lập Bastion Host",
+	"tags": [],
+	"description": "",
+	"content": "Thiết lập Bastion Host Bastion Host là giới hạn và kiểm soát quyền truy cập từ bên ngoài vào các máy chủ trong mạng riêng. Thay vì cho phép truy cập trực tiếp từ bên ngoài vào các máy chủ, người dùng trước tiên phải kết nối đến Bastion Host thông qua một kênh bảo mật ở đây mình sử dụng SSH và sau đó từ Bastion Host, họ có thể truy cập các máy chủ khác trong mạng riêng\nĐầu tiên chúng ta sẽ tạo Security Group để thiết lập quy tắc cho Bastion Host Vào EC2 console và tiến hành tạo Security Group\nMở khóa SSH\nTiến hành tạo KeyPair cho Bastion Host\nLưu keypair\nTiến hành tạo EC2 để làm máy chủ Bastion Host\nỞ đây mình sử dụng Ubuntu\nChọn keypair vừa mới tạo\nThông số VPC , security group\nVà tiến hành chạy Instances\nTiến hành truy cập SSH vào máy chủ Bastion Ở đây mình sử dụng git bash để truy cập theo lệnh tương ứng và tệp keypair đã tải xuống ở trên\nNhư vậy đã thiết lập xong Bastion Host\n"
+},
+{
+	"uri": "/vi/7-setupwebsiteonec2/",
+	"title": "Thiết lập website trên EC2",
+	"tags": [],
+	"description": "",
+	"content": "Thiết lập trang web trên EC2 Tiến hành tạo thêm 1 EC2 tại private subnet Đầu tiền tạo keypair cho host website\nLưu nó ở thư mục keypair của Bastion Host\nTiến hành gửi keypair cho Bastion Host\nTiếp đến tạo Instances Web\nThiết lập Security Group cho Instance Web chỉ có thể truy cập từ Bastion Host\nTiếp theo ta sử dụng Bastion Host truy cập vào Máy chủ Web\nCài các thư viện cần thiết\nKiếm tài nguyên web ở đây mình tải tại trang tooplate\nTiến hành giải nén và coppy vào thư mục html và restart lại dịch vụ httpd\n"
+},
+{
+	"uri": "/vi/8-setupapplicationloadbalance/",
+	"title": "Thiết lập Application Loadbalance",
+	"tags": [],
+	"description": "",
+	"content": " Application Load Balancer là một dịch vụ phân phối tải trong AWS, được sử dụng để cân bằng tải lưu lượng đến các ứng dụng hoạt động trên nhiều máy chủ hoặc các tài nguyên xử lý ứng dụng khác nhau. Nó giúp tăng khả năng chịu tải, cải thiện hiệu suất và đảm bảo tính sẵn sàng của ứng dụng.\nBước đầu ta tạo target group cho loadbalance\nChọn VPC đã tạo\nỞ đây mình sử dụng target group cho Web Host mở cổng 80 để bên ngoài Internet có thể truy cập vào trang web\nTạo Security Group cho Load Balance\nTạo Load Balance\nChú ý chọn 2 subnet public tại 2 zone\nSecurity group\nSau khi xong chúng ta coppy DNS và tiến hành truy cập trang web thử\nThành quả\n"
+},
+{
+	"uri": "/vi/9-end/",
+	"title": "Kết thúc",
+	"tags": [],
+	"description": "",
+	"content": "Cám ơn xem bài Workshop của mình. Đây chỉ là triển khai mô hình đơn giản còn rất nhiều thiếu sót. Trong tương lai, mình sẽ nghiên cứu sâu hơn và cải thiện mô hình để đảm bảo an toàn, ổn định và linh hoạt hơn. Xin cám ơn.\n"
+},
+{
+	"uri": "/vi/categories/",
+	"title": "Categories",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "/vi/tags/",
+	"title": "Tags",
+	"tags": [],
+	"description": "",
+	"content": ""
+}]
